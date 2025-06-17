@@ -14,12 +14,12 @@ public class User {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
+        if (this == o) {return true;}
+        if (!(o instanceof User)) {return false;}
 
         User user = (User) o;
 
-        if (name != null ? !name.equals(user.name) : user.name != null) return false;
+        if (name != null ? !name.equals(user.name) : user.name != null) {return false;}
         return id != null ? id.equals(user.id) : user.id == null;
     }
     @Override

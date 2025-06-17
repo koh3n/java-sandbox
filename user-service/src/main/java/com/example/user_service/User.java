@@ -1,4 +1,4 @@
-package main.java.com.example.user_service;
+package com.example.user_service;
 
 public class User {
     private String name;
@@ -6,17 +6,12 @@ public class User {
 
     public User() {
     }
+
     public User(String name, Integer id) {
         this.name = name;
         this.id = id;
     }
-    @Override
-    public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                ", id=" + id +
-                '}';
-    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

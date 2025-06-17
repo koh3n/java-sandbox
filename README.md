@@ -6,7 +6,15 @@ Java testing sandbox with springboot server, junit and gh actions.
 
 - java 21
 - maven
+
+## Run server
 ```
 cd user-service 
 ./mvnw spring-boot:run
+```
+
+## Run tests
+```
+cd user-service 
+./mvnw tests
 ```

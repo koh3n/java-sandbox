@@ -32,15 +32,11 @@ jobs:
       run: ./mvnw checkstyle:check
       working-directory: user-service
 
-
   test:
+    if: github.ref != 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: build
 
-    environment: 
-      name: require-approval
-      if: github.ref == 'refs/heads/main'
-      
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -51,21 +47,30 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Use Maven cache
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-maven
-
-      - name: Run tests
+      - name: Run tests with dev API key
         env:
-          API_KEY: ${{ github.ref == 'refs/heads/dev' && secrets.DEV_API_KEY || secrets.PROD_API_KEY }}
-        run: |
-          if [ -z "$API_KEY" ]; then
-            echo "Missing API_KEY"
-            exit 1
-          fi
-          ./mvnw clean test
+          API_KEY: ${{ secrets.DEV_API_KEY }}
+        run: ./mvnw clean test
         working-directory: user-service
 
+  test-prod:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: build
+    environment: require-approval  # manual approval
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Run tests with prod API key
+        env:
+          API_KEY: ${{ secrets.PROD_API_KEY }}
+        run: ./mvnw clean test
+        working-directory: user-service

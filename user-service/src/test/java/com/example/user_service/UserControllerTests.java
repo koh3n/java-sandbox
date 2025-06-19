@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -66,5 +67,11 @@ public class UserControllerTests {
                 .andExpect(status().isOk())
                 .andExpect(content().string("Alice"));
     }
+
+    @Test
+        void testApiKeyIsLoaded() {
+            String apiKey = System.getenv("API_KEY");
+            assertNotNull(apiKey, "API key should not be null");
+        }
 
 }

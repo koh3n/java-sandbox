@@ -2,9 +2,9 @@ name: Java CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, dev]
   pull_request:
-    branches: [main]
+    branches: [main, dev]
 
 jobs:
   build:
@@ -32,6 +32,13 @@ jobs:
       run: ./mvnw checkstyle:check
       working-directory: user-service
 
-    - name: Build and run tests
-      run: ./mvnw clean test
+    - name: Run tests
+      env:
+        API_KEY: ${{ github.ref == 'refs/heads/dev' && secrets.DEV_API_KEY || secrets.PROD_API_KEY }}
+      run: |
+        if [ -z "$API_KEY" ]; then
+          echo "Missing API_KEY"
+          exit 1
+        fi
+        ./mvnw clean test
       working-directory: user-service

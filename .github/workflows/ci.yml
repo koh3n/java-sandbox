@@ -28,7 +28,10 @@ jobs:
         key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
         restore-keys: ${{ runner.os }}-maven
 
+    - name: Lint
+      run: ./mvnw checkstyle:check
+      working-directory: user-service
+
     - name: Build and run tests
       run: ./mvnw clean test
       working-directory: user-service
-

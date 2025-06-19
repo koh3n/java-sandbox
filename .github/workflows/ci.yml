@@ -57,7 +57,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: build
-    environment: require-approval  # manual approval env
+    environment: require-approval  # manual approval
 
     steps:
       - name: Checkout code

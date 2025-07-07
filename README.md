@@ -1,6 +1,6 @@
 ## About
 
-Java testing sandbox with springboot server, junit and gh actions.
+Java testing sandbox with springboot server, junit, secrets and gh actions.
 
 ## Setup
 
